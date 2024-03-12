@@ -1,4 +1,5 @@
-﻿@{
+﻿@page
+@{
     int _totalPages = (int) Math.Truncate((double)ViewBag.TotalItems / ViewBag.ChunkSize);
 }
 <div class="dashboard-ecommerce">
@@ -20,6 +21,31 @@
             </div>
         </div>
         <!-- end pageheader  -->
+
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pb-0">
+                <div class="border bg-white px-3 py-1 mb-2">
+                    @using( Html.BeginForm("Index", "Measurement", FormMethod.Get)){
+                        <div class="d-flex align-items-end" >
+                            <div class="form-group mr-1">
+                                <label for="Desde" class="col-form-label">Desde</label>
+                                <input name="Desde" type="date" value="@ViewBag.Desde" class="form-control">
+                            </div>
+
+                            <div class="form-group mr-1">
+                                <label for="Hasta" class="col-form-label">Hasta</label>
+                                <input name="Hasta" type="date" value="@ViewBag.Hasta"  class="form-control">
+                            </div>
+
+                            <div class="form-group mr-1">
+                                <input type="submit" class="btn btn-primary px-4" value="Enviar" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
 
 
         <!-- Measurement table -->
@@ -107,7 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="card-footer bg-white">
+                    <div class="card-footer bg-white" style="overflow: hidden;">
                         <!-- Paginator  -->
                         <nav>
                             <ul class="pagination">
@@ -175,8 +201,7 @@
                 });
                 @* scrollY: viewportHeight *@
 
-                table.buttons().container()
-                    .appendTo('#dataTable_wrapper .col-md-6:eq(0)');
+                table.buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
             });
         }
     </script>

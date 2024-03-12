@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using eMeterSite.Data;
 using eMeterSite.Models;
+using eMeterSite.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +23,7 @@ namespace eMeterSite.Controllers
             this.appService = appService;
         }
 
-        public async Task<IActionResult> Index([FromQuery] int page = 0, [FromQuery] int chunk = 25) 
+        public async Task<IActionResult> Index( [FromQuery] DateTime desde, [FromQuery] DateTime hasta, [FromQuery] int page = 0, [FromQuery] int chunk = 25) 
         {
 
             // Get devices list
@@ -38,10 +39,16 @@ namespace eMeterSite.Controllers
             ViewData["ChunkSize"] = enumerableResponse.ChunkSize;
             ViewData["CurrentPage"] = enumerableResponse.Page;
             ViewData["TotalItems"] = enumerableResponse.TotalItems;
-            ViewData["Measurements"] = measurements!;
+            ViewData["Measurements"] = measurements??[];
+
+
+            var measurementFilter = new MeasurementFilter();
+            ViewData["Desde"] = measurementFilter.Desde;
+            ViewData["Hasta"] = measurementFilter.Hasta;
 
             return View();
         }
+
 
     }
 }   
