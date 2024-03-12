@@ -2,6 +2,10 @@
 @using eMeterSite.Models
 @model IEnumerable<DeviceInfo>?
 
+@{
+    var _totalPages = (int) Math.Truncate( (double) ViewBag.TotalItems / ViewBag.ChunkSize);
+}
+
 <div class="container-fluid dashboard-content">
     
     <!-- pageheader -->
@@ -24,7 +28,6 @@
     
     <!-- content -->
     <div class="row">
-        
         <!-- search bar  -->
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
@@ -37,7 +40,39 @@
             </div>
         </div>
         <!-- end search bar  -->
+    </div>
 
+    <!-- Paginator  -->
+    <div class="row">
+        <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12 col-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" disabled >
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    @for(int i = 0; i <= _totalPages; i++){
+                        var _customRoute = $"/Devices?page={i}";
+                        var _label = (i+1).ToString();
+                        <li class='page-item @( (i) == (int)ViewBag.CurrentPage?"active":"") '>
+                            <a class="page-link" href="@_customRoute">@_label</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" disabled>
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>  
+    <!-- End Paginator  -->
+
+    <div class="row">
 
         @{
             var _devices = (IEnumerable<DeviceInfo>)ViewBag.Devices;
@@ -55,41 +90,37 @@
         @Html.Partial("./Partials/DeviceSidebar")
         <!-- end influencer sidebar  -->
 
-        <!-- Paginator  -->
-        <div class="row">
-            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12 col-12">
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" aria-label="Previous" disabled >
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        @{
-                            var _totalPages = (int) Math.Ceiling( (double) ViewBag.TotalItems / ViewBag.ChunkSize);
-                            for(int i = 0; i <= _totalPages; i++){
-                                var _customRoute = $"/Devices?page={i}";
-                                var _label = (i+1).ToString();
-                                <li class='page-item @( i+1 == (int)ViewBag.CurrentPage)?"active":"" '>
-                                    <a class="page-link" href="@_customRoute">@_label</a>
-                                </li>
-                            }
-                        }
-                        
-                        <li class="page-item">
-                            <a class="page-link" aria-label="Next" disabled>
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>  
-        <!-- End Paginator  -->
-
     </div>
+
+    <!-- Paginator  -->
+    <div class="row">
+        <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12 col-12">
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" disabled >
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                     @for(int i = 0; i <= _totalPages; i++){
+                        var _customRoute = $"/Devices?page={i}";
+                        var _label = (i+1).ToString();
+                        <li class='page-item @( (i) == (int)ViewBag.CurrentPage?"active":"") '>
+                            <a class="page-link" href="@_customRoute">@_label</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" disabled>
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>  
+    <!-- End Paginator  -->
     
 </div>
