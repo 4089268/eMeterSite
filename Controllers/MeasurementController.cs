@@ -26,23 +26,22 @@ namespace eMeterSite.Controllers
         {
 
             // Get devices list
-            var enumerableResponse = await this.appService.GetDevices(chunk, page);
+            var enumerableResponse = await this.appService.GetMeasurement(chunk, page);
             if( enumerableResponse == null)
             {
                 // TODO: Redirect to bad request
                 return RedirectToAction("Errro", "Home");
             }
 
-            IEnumerable<DeviceInfo>? devices = enumerableResponse.Data;
-
+            IEnumerable<Measurement>? measurements = enumerableResponse.Data;
+            
             ViewData["ChunkSize"] = enumerableResponse.ChunkSize;
             ViewData["CurrentPage"] = enumerableResponse.Page;
             ViewData["TotalItems"] = enumerableResponse.TotalItems;
-            ViewData["Devices"] = devices!;
+            ViewData["Measurements"] = measurements!;
 
             return View();
         }
-
 
     }
 }   

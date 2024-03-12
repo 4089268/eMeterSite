@@ -49,5 +49,21 @@ namespace eMeterSite.Services
             return devicesDetails;
         }
 
+        public async Task<EnumerableResponse<Measurement>?> GetMeasurement(int chunk = 25, int page = 0)
+        {
+            var httpClient = this.httpClientFactory.CreateClient("eMeterApi");
+
+            var httpResponse = httpClient.GetAsync($"/api/Measurement?chunk={chunk}&page={page}");
+            if( httpResponse.IsFaulted ){
+                this.logger.LogError( httpResponse.Exception, "Cat get measurement data" );
+                return null;
+            }
+
+            var measurementData = await httpResponse.Result.Content.ReadFromJsonAsync<EnumerableResponse<Measurement>>();
+            if(measurementData == null){
+                return null;
+            }
+            return measurementData;
+        }
     }
 }
