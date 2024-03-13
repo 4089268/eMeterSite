@@ -11,7 +11,7 @@ namespace eMeterSite.Data
         public Task<EnumerableResponse<DeviceInfo>?> GetDevices(int chunk=25, int page=0);
         public Task<DeviceDetails?> GetDeviceInfo(string deviceAddress);
 
-         public Task<EnumerableResponse<Measurement>?> GetMeasurement( int chunk=25, int page=0 );
+         public Task<EnumerableResponse<Measurement>?> GetMeasurement( int chunk=0, int page=0, DateTime? from = null, DateTime? to = null );
 
     }
 }

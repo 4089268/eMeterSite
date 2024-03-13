@@ -23,30 +23,31 @@ namespace eMeterSite.Controllers
             this.appService = appService;
         }
 
-        public async Task<IActionResult> Index( [FromQuery] DateTime desde, [FromQuery] DateTime hasta, [FromQuery] int page = 0, [FromQuery] int chunk = 25) 
+        public async Task<IActionResult> Index( [FromQuery] DateTime? desde, [FromQuery] DateTime? hasta ) 
         {
+            ViewData["Title"] = "Measurement";
+            
+            MeasurementViewModel measurementViewModel = new();
+            if( desde!= null && hasta != null){
+                measurementViewModel.Desde = desde.Value;
+                measurementViewModel.Hasta = hasta.Value;
+            }
 
             // Get devices list
-            var enumerableResponse = await this.appService.GetMeasurement(chunk, page);
+            var enumerableResponse = await this.appService.GetMeasurement(0, 0, measurementViewModel.Desde, measurementViewModel.Hasta);
             if( enumerableResponse == null)
             {
                 // TODO: Redirect to bad request
                 return RedirectToAction("Errro", "Home");
             }
 
+            // Prepare data to view
             IEnumerable<Measurement>? measurements = enumerableResponse.Data;
-            
-            ViewData["ChunkSize"] = enumerableResponse.ChunkSize;
-            ViewData["CurrentPage"] = enumerableResponse.Page;
             ViewData["TotalItems"] = enumerableResponse.TotalItems;
             ViewData["Measurements"] = measurements??[];
 
-
-            var measurementFilter = new MeasurementFilter();
-            ViewData["Desde"] = measurementFilter.Desde;
-            ViewData["Hasta"] = measurementFilter.Hasta;
-
-            return View();
+            
+            return View( measurementViewModel );
         }
 
 

@@ -1,7 +1,4 @@
-﻿@page
-@{
-    int _totalPages = (int) Math.Truncate((double)ViewBag.TotalItems / ViewBag.ChunkSize);
-}
+﻿@model eMeterSite.Models.ViewModels.MeasurementViewModel
 <div class="dashboard-ecommerce">
     <div class="container-fluid dashboard-content ">
         
@@ -29,17 +26,17 @@
                     @using( Html.BeginForm("Index", "Measurement", FormMethod.Get)){
                         <div class="d-flex align-items-end" >
                             <div class="form-group mr-1">
-                                <label for="Desde" class="col-form-label">Desde</label>
-                                <input name="Desde" type="date" value="@ViewBag.Desde" class="form-control">
+                                <label asp-for="Desde" class="col-form-label">Desde</label>
+                                <input asp-for="Desde" class="form-control">
                             </div>
 
                             <div class="form-group mr-1">
-                                <label for="Hasta" class="col-form-label">Hasta</label>
-                                <input name="Hasta" type="date" value="@ViewBag.Hasta"  class="form-control">
+                                <label asp-for="Hasta" class="col-form-label">Hasta</label>
+                                <input asp-for="Hasta" class="form-control">
                             </div>
 
                             <div class="form-group mr-1">
-                                <input type="submit" class="btn btn-primary px-4" value="Enviar" />
+                                <input type="submit" class="btn btn-primary px-5" value="Enviar" />
                             </div>
                         </div>
                     }
@@ -52,18 +49,17 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
-
                     <div class="card-body">
                         <div class="campaign-table table-responsive">
                             <table id="dataTable" class="table second table-striped table-bordered" style="width:100%" >
                                 <thead>
                                     <tr class="border-0">
-                                        <th class="border-0"></th>
-                                        <th class="border-0">Meter Address</th>
-                                        <th class="border-0">DataId</th>
-                                        <th class="border-0">Cummulative Flow</th>
-                                        <th class="border-0">CFUnit</th>
-                                        <th class="border-0">Dayli C. Amount</th>
+                                        <th class="border-0 text-center"></th>
+                                        <th class="border-0 text-center">Meter Address</th>
+                                        <th class="border-0 text-center">DataId</th>
+                                        <th class="border-0 text-center">Cummulative Flow</th>
+                                        <th class="border-0 text-center">CFUnit</th>
+                                        <th class="border-0 text-center">Dayli C. Amount</th>
                                         <th class="border-0">DCFUnit</th>
                                         <th class="border-0">Flow Rate</th>
                                         <th class="border-0">FRUnit</th>
@@ -74,10 +70,10 @@
                                         <th class="border-0">Battery</th>
                                         <th class="border-0">Reverse Flow</th>
                                         <th class="border-0">Over Range</th>
-                                        <th class="border-0">Water Temp</th>
-                                        <th class="border-0">EE Alarm</th>
-                                        <th class="border-0">Registration Date</th>
-                                        <th class="border-0">Action</th>
+                                        <th class="border-0 text-center">Water Temp</th>
+                                        <th class="border-0 text-center">EE Alarm</th>
+                                        <th class="border-0 text-center">Registration Date</th>
+                                        <th class="border-0 text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -132,35 +128,6 @@
                             </table>
                         </div>
                     </div>
-
-                    <div class="card-footer bg-white" style="overflow: hidden;">
-                        <!-- Paginator  -->
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" aria-label="Previous" disabled >
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                @for(int i = 0; i <= _totalPages; i++){
-                                    var _customRoute = $"/Measurement?page={i}";
-                                    var _label = (i+1).ToString();
-                                    <li class='page-item @( (i) == (int)ViewBag.CurrentPage?"active":"") '>
-                                        <a class="page-link" href="@_customRoute">@_label</a>
-                                    </li>
-                                }
-                                <li class="page-item">
-                                    <a class="page-link" aria-label="Next" disabled>
-                                        <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- End Paginator  -->
-                    </div>
-
                 </div>
             </div>
 
@@ -196,8 +163,8 @@
                     lengthChange: false,
                     buttons: ['copy', 'excel', 'pdf', 'print' ],
                     searching: false,
-                    paging: false,
-                    
+                    paging: true,
+                    pageLength: 100
                 });
                 @* scrollY: viewportHeight *@
 
@@ -205,5 +172,4 @@
             });
         }
     </script>
-
 }

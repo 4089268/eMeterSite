@@ -49,11 +49,20 @@ namespace eMeterSite.Services
             return devicesDetails;
         }
 
-        public async Task<EnumerableResponse<Measurement>?> GetMeasurement(int chunk = 25, int page = 0)
+        public async Task<EnumerableResponse<Measurement>?> GetMeasurement(int chunk = 0, int page = 0, DateTime? from = null, DateTime? to = null)
         {
             var httpClient = this.httpClientFactory.CreateClient("eMeterApi");
 
-            var httpResponse = httpClient.GetAsync($"/api/Measurement?chunk={chunk}&page={page}");
+            var queryParamsList = new List<string>();
+            queryParamsList.Add($"chunk={chunk}");
+            queryParamsList.Add($"page={page}");
+
+            if( from != null && to != null){
+                queryParamsList.Add($"from={from.Value.ToString("yyy-MM-dd")}");
+                queryParamsList.Add($"to={to.Value.ToString("yyy-MM-dd")}");
+            }
+            var _queryParams = string.Join( "&", queryParamsList);
+            var httpResponse = httpClient.GetAsync($"/api/Measurement?{_queryParams}");
             if( httpResponse.IsFaulted ){
                 this.logger.LogError( httpResponse.Exception, "Cat get measurement data" );
                 return null;

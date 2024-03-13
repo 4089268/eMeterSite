@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 
 namespace eMeterSite.Models.ViewModels
 {
-    public class MeasurementFilter
+    public class MeasurementViewModel
     {
 
-        public MeasurementFilter()
+        public MeasurementViewModel()
         {
-            var now = DateTime.Now;
-            Desde = new DateTime( now.Year, now.Month, 1);
-            Hasta = new DateTime( now.Year, now.Month, DateTime.DaysInMonth( now.Year, now.Month));
+            Desde = DateTime.Now;
+            Hasta = DateTime.Now;
+        }
+        public MeasurementViewModel(DateTime from , DateTime to)
+        {
+            Desde = from;
+            Hasta = to;
         }
 
         [DataType(DataType.Date)]
