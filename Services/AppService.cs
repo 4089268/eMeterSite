@@ -74,5 +74,22 @@ namespace eMeterSite.Services
             }
             return measurementData;
         }
+
+        public async Task<IEnumerable<Project>?> GetProjects()
+        {
+            var httpClient = this.httpClientFactory.CreateClient("eMeterApi");
+
+            var httpResponse = httpClient.GetAsync($"/api/Project");
+            if( httpResponse.IsFaulted ){
+                this.logger.LogError( httpResponse.Exception, "Cant get projects" );
+                return null;
+            }
+
+            var projects = await httpResponse.Result.Content.ReadFromJsonAsync<IEnumerable<Project>>();
+            if(projects == null){
+                return null;
+            }
+            return projects;
+        }
     }
 }

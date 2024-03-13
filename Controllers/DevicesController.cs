@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using eMeterSite.Data;
 using eMeterSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace eMeterSite.Controllers
@@ -22,7 +23,7 @@ namespace eMeterSite.Controllers
             this.appService = appService;
         }
 
-        public async Task<IActionResult> Index([FromQuery] int page = 0, [FromQuery] int chunk = 25) 
+        public async Task<IActionResult> Index([FromQuery] int page = 0, [FromQuery] int chunk = 25, [FromQuery] int PI = 0, [FromQuery] string? SB = null, [FromQuery] string? SV = null ) 
         {
 
             // Get devices list
@@ -33,12 +34,22 @@ namespace eMeterSite.Controllers
                 return RedirectToAction("Errro", "Home");
             }
 
+            // Process data
             IEnumerable<DeviceInfo>? devices = enumerableResponse.Data;
-
             ViewData["ChunkSize"] = enumerableResponse.ChunkSize;
             ViewData["CurrentPage"] = enumerableResponse.Page;
             ViewData["TotalItems"] = enumerableResponse.TotalItems;
             ViewData["Devices"] = devices!;
+
+            // Get catalogs projects
+            var _projects = await appService.GetProjects();
+            if( _projects != null){
+                ViewData["Projects"] = _projects!;
+            }
+
+            // ViewData["Filter"] = new DeviceFilterViewModel(){
+            //     ProjectId = 2
+            // };
 
             return View();
         }
@@ -61,5 +72,11 @@ namespace eMeterSite.Controllers
             return View();
         }
         
+    }
+
+    public class DeviceFilterViewModel {
+        public string? StatusValve {get;set;}
+        public string? StatusBattery {get;set;}
+        public int ProjectId {get;set;}
     }
 }   
