@@ -49,7 +49,7 @@ namespace eMeterSite.Services
             return devicesDetails;
         }
 
-        public async Task<EnumerableResponse<Measurement>?> GetMeasurement(int chunk = 0, int page = 0, DateTime? from = null, DateTime? to = null)
+        public async Task<EnumerableResponse<Measurement>?> GetMeasurement(int chunk = 0, int page = 0, DateTime? from = null, DateTime? to = null, string? deviceAddress = null)
         {
             var httpClient = this.httpClientFactory.CreateClient("eMeterApi");
 
@@ -57,10 +57,15 @@ namespace eMeterSite.Services
             queryParamsList.Add($"chunk={chunk}");
             queryParamsList.Add($"page={page}");
 
-            if( from != null && to != null){
+            if(from != null && to != null){
                 queryParamsList.Add($"from={from.Value.ToString("yyy-MM-dd")}");
                 queryParamsList.Add($"to={to.Value.ToString("yyy-MM-dd")}");
             }
+
+            if(deviceAddress != null){
+                queryParamsList.Add($"deviceAddress={deviceAddress}");
+            }
+
             var _queryParams = string.Join( "&", queryParamsList);
             var httpResponse = httpClient.GetAsync($"/api/Measurement?{_queryParams}");
             if( httpResponse.IsFaulted ){

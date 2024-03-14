@@ -25,5 +25,7 @@ namespace eMeterSite.Models.ViewModels
         
         [DataType(DataType.Date)]
         public DateTime Hasta {get;set;}
+
+        public string? DeviceAddress {get;set;}
     }
 }

@@ -23,7 +23,7 @@ namespace eMeterSite.Controllers
             this.appService = appService;
         }
 
-        public async Task<IActionResult> Index( [FromQuery] DateTime? desde, [FromQuery] DateTime? hasta ) 
+        public async Task<IActionResult> Index( [FromQuery] DateTime? desde, [FromQuery] DateTime? hasta, [FromQuery] string? deviceAddress = null  ) 
         {
             ViewData["Title"] = "Measurement";
             
@@ -34,7 +34,7 @@ namespace eMeterSite.Controllers
             }
 
             // Get devices list
-            var enumerableResponse = await this.appService.GetMeasurement(0, 0, measurementViewModel.Desde, measurementViewModel.Hasta);
+            var enumerableResponse = await this.appService.GetMeasurement(0, 0, measurementViewModel.Desde, measurementViewModel.Hasta, deviceAddress);
             if( enumerableResponse == null)
             {
                 // TODO: Redirect to bad request
