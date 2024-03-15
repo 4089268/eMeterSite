@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using eMeterSite.Models;
+using eMeterSite.Data;
 
 namespace eMeterSite.Controllers;
 
+[Auth]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

@@ -8,15 +8,22 @@
     <div class="card ">
         <div class="card-header text-center"><a href="../index.html"><img class="logo-img" src="../assets/images/logo.png" alt="logo"></a><span class="splash-description">Please enter your user information.</span></div>
         <div class="card-body">
-            <form>
+            @using( Html.BeginForm("Login", "Authentication", FormMethod.Post )){
                 <div class="form-group">
-                    <input class="form-control form-control-lg" asp-for="User" placeholder="Username" autocomplete="off">
+                    <input class="form-control form-control-lg" asp-for="Email" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <input class="form-control form-control-lg" asp-for="Password"  type="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-            </form>
+            }
+            @*
+            @if(model.MessageError != null){
+                <div class="alert alert-danger mt-2" role="alert">
+                   @model.MessageError
+                </div>
+            }
+            *@
         </div>
     </div>
 </div>

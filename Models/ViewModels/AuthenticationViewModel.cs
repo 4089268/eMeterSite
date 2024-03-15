@@ -2,19 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using eMeterSite.Data.Contracts;
 
 namespace eMeterSite.Models.ViewModels
 {
-    public class AuthenticationViewModel
+    public class AuthenticationViewModel : IUserCredentials
     {
 
         [Required]
-        public string User {get; set;} = null!;
+        [DataType(DataType.EmailAddress)]
+        public string? Email {get; set;}
         
         [Required]
         [DataType(DataType.Password)]
-        public string Password {get; set;} = null!;
+        public string? Password {get; set;}
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string? MessageError {get; set;}
         
     }
 }
