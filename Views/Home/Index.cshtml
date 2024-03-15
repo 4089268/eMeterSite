@@ -1,10 +1,17 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
+    var userClaim = User.Claims.Where( c => c.Type == "name").FirstOrDefault();
+
+
+    ViewData["UserName"] = userClaim !=null ? userClaim.Value :"";
+
     ViewData["Title"] = "Home Page";
+    
 }
 
 <div class="text-center mt-4">
     <h1 class="display-4">eMeter</h1>
-    <p>Learn about <a href="https://nerus.com.mx/Soluciones/Nerus.html">building Web apps</a>.</p>
+    <p class="font-16">Bienvenido <a  class="text-primary" href="https://nerus.com.mx/Soluciones/Nerus.html">@ViewBag.UserName</a></p>
 </div>
 
 <div class="dashboard-ecommerce">

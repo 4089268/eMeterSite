@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 
 namespace eMeterSite.Controllers
 {
+    
+    [Auth]
     [Route("[controller]")]
     public class MeasurementController : Controller
     {
