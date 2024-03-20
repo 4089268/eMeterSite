@@ -21,7 +21,7 @@ namespace eMeterSite.Services
         public string? Authenticate( IUserCredentials credentials, out string message ){
             
             var httpClient = httpClientFactory.CreateClient("eMeterApi");
-            var httpResponse = httpClient.PostAsJsonAsync("/", new {
+            var httpResponse = httpClient.PostAsJsonAsync("/api/Authentication", new {
                 email = credentials.Email,
                 password = credentials.Password
             }).Result;
