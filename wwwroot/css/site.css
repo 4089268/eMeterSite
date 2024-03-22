@@ -1,3 +1,9 @@
+
+:root{
+  --primary-color: #495F75;
+  --seconday-color: #5071ae;
+}
+
 html {
   font-size: 14px;
 }
