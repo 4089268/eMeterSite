@@ -33,7 +33,7 @@ namespace eMeterSite.Controllers
             if( enumerableResponse == null)
             {
                 // TODO: Redirect to bad request
-                return RedirectToAction("Errro", "Home");
+                return RedirectToAction("", "Home");
             }
 
             // Process data
@@ -66,7 +66,7 @@ namespace eMeterSite.Controllers
             if( deviceDetails == null)
             {
                 // TODO: Redirect to bad request
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("", "Home");
             }
 
             ViewData["Device"] = deviceDetails!;

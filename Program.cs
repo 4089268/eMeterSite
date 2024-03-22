@@ -6,6 +6,7 @@ using eMeterSite.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.ConfigureApplicationCookie( options => options.LoginPath = "/Authentication" );
 builder.Services.AddSession( options => {
@@ -15,9 +16,6 @@ builder.Services.AddSession( options => {
 });
 builder.Services.AddHttpClient( "eMeterApi", o => {
     o.BaseAddress = new Uri( builder.Configuration.GetValue<string>("eMeterApi")!);
-    o.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-        builder.Configuration.GetValue<string>("eMeterApiToken")!
-    );
 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAppService, AppService>();

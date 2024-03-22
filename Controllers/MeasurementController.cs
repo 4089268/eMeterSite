@@ -40,7 +40,7 @@ namespace eMeterSite.Controllers
             if( enumerableResponse == null)
             {
                 // TODO: Redirect to bad request
-                return RedirectToAction("Errro", "Home");
+                return RedirectToAction("", "Home");
             }
 
             // Prepare data to view
@@ -48,7 +48,6 @@ namespace eMeterSite.Controllers
             ViewData["TotalItems"] = enumerableResponse.TotalItems;
             ViewData["Measurements"] = measurements??[];
 
-            
             return View( measurementViewModel );
         }
 
