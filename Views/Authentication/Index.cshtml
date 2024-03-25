@@ -5,6 +5,7 @@
 }
  
 <div class="splash-container">
+
     <div class="card ">
         <div class="card-header text-center">
             <a href="../index.html"><img class="logo-img" src="/img/logo.png" alt="logo" style="width:100%;"></a>
@@ -29,4 +30,10 @@
             *@
         </div>
     </div>
+
+    @if( ViewBag.ErrorMessage != null){
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
 </div>

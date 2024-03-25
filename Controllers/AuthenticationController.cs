@@ -30,6 +30,7 @@ namespace eMeterSite.Controllers
 
             if( token == null){
                 authenticationViewModel.MessageError = message;
+                ViewData["ErrorMessage"] = "Usuario y/o contraseña incorrectos.";
                 return View("index", authenticationViewModel);
             }
             
