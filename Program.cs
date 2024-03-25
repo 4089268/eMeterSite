@@ -18,8 +18,9 @@ builder.Services.AddHttpClient( "eMeterApi", o => {
     o.BaseAddress = new Uri( builder.Configuration.GetValue<string>("eMeterApi")!);
 });
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IAppService, AppService>();
 builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<IAppService, AppService>();
+builder.Services.AddScoped<ProjectService>();
 
 
 var app = builder.Build();

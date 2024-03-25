@@ -1,12 +1,8 @@
 ﻿@using System.Security.Claims
+@model IEnumerable<eMeterSite.Models.Project>
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center mt-4">
-    <h1 class="display-4">eMeter</h1>
-    <p class="font-16">Bienvenido <a  class="text-primary" href="https://nerus.com.mx/Soluciones/Nerus.html">@ViewBag.UserName</a></p>
-</div>
 
 <div class="dashboard-ecommerce">
     <div class="container-fluid dashboard-content ">
@@ -15,11 +11,11 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="page-header">
-                    <h2 class="pageheader-title">eMeter Dashboard Template Sample </h2>
+                    <h2 class="pageheader-title">Proyectos </h2>
                     <div class="page-breadcrumb">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Projects</a></li>
                             </ol>
                         </nav>
                     </div>
@@ -27,41 +23,57 @@
             </div>
         </div>
         <!-- end pageheader  -->
+        @if( ViewBag.ErrorMessage != null){
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
 
         <div class="container">
             <div class="row">
+
+                <div class="col-12 mb-2 d-flex">
+                    <button class="btn btn-primary rounded ml-auto d-flex align-items-center" type="button">
+                        <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11.5 12.5V16q0 .213.144.356q.144.144.357.144t.356-.144q.143-.143.143-.356v-3.5H16q.213 0 .356-.144q.144-.144.144-.357t-.144-.356Q16.213 11.5 16 11.5h-3.5V8q0-.213-.144-.356Q12.212 7.5 12 7.5t-.356.144Q11.5 7.788 11.5 8v3.5H8q-.213 0-.356.144q-.144.144-.144.357t.144.356q.144.143.356.143zm.503 8.5q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924q-1.216-1.214-1.925-2.856Q3 13.87 3 12.003q0-1.866.708-3.51q.709-1.643 1.924-2.859q1.214-1.216 2.856-1.925Q10.13 3 11.997 3q1.866 0 3.51.708q1.643.709 2.859 1.924q1.216 1.214 1.925 2.856Q21 10.13 21 11.997q0 1.866-.708 3.51q-.709 1.643-1.924 2.859q-1.214 1.216-2.856 1.925Q13.87 21 12.003 21"/></svg>
+                        Agregar Nuevo
+                    </button>
+                </div>
+
                 <div class="col-12">
                     <div class="card">
-                        <h5 class="card-header">Basic Table</h5>
+                        <h5 class="card-header">Proyectos Activos</h5>
                         <div class="card-body">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Projecto</th>
+                                        <th scope="col">Clave</th>
+                                        <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>111</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>222</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>333</td>
-                                    </tr>
+                                @{
+                                    var c = 1;
+                                    foreach(var project in @Model){
+                                        <tr>
+                                            <th scope="row">@c</th>
+                                            <td>@project.Id</td>
+                                            <td>@project.Proyecto</td>
+                                            <td>@project.Clave</td>
+                                            <td>
+                                                <div class="d-grid gap-2 d-md-block">
+                                                <button class="btn btn-primary rounded" type="button">Editar</button>
+                                                <button class="btn btn-primary rounded" type="button">Eliminar</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @{
+                                            c = c+1;
+                                        }
+                                    }
+                                }
                                 </tbody>
                             </table>
                         </div>
