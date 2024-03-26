@@ -21,6 +21,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<IAppService, AppService>();
 builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<UserService>();
 
 
 var app = builder.Build();
