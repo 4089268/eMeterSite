@@ -9,6 +9,7 @@ using eMeterSite.Data;
 using eMeterSite.Models;
 using eMeterSite.Models.ViewModels;
 using eMeterSite.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace eMeterSite.Controllers
 {
@@ -41,5 +42,32 @@ namespace eMeterSite.Controllers
 
         }
         
+        [Route("create")]
+        public IActionResult Create(){
+            return View();
+        }
+
+        [Route("store")]
+        [HttpPost]
+        public async Task<IActionResult> Store(NewProjectViewModel newProject){
+
+            if (!ModelState.IsValid)
+            {
+                return View("Create", newProject); // Pass the model back to the view
+            }
+
+            try{
+
+                await this.projectService.CreateProject( newProject );
+
+            }catch(ValidationException){
+                ModelState.AddModelError("Clave", "La clave ya se encuentra almacenada en la base de datos");
+                return View("Create", newProject);
+            }
+
+            return RedirectToAction("Index", "Projects");
+
+        }
+
     }
 }
