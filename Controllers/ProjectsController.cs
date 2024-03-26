@@ -7,9 +7,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using eMeterSite.Data;
 using eMeterSite.Models;
-using eMeterSite.Models.ViewModels;
+using eMeterSite.Models.ViewModels.Projects;
 using eMeterSite.Services;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace eMeterSite.Controllers
 {
@@ -68,6 +69,56 @@ namespace eMeterSite.Controllers
             return RedirectToAction("Index", "Projects");
 
         }
+
+        [Route("{projectId}")]
+        [HttpGet]
+        public async Task<IActionResult> Edit( [FromRoute] int projectId ){
+            
+            try{
+                var projects = await this.projectService.GetProjects();
+                if( projects == null){
+                    ViewData["ErrorMessage"] = "Erro al obtener el listado de projectos";
+                    return View("Index", Array.Empty<Project>() );
+                }
+                
+                var project = projects!.Where( item => item.Id == projectId).FirstOrDefault();
+                if(project == null){
+                    ViewData["ErrorMessage"] = "El proyecto no se encuentra registrado o esta inactivo.";
+                    return View("Index", projects );
+                }
+                
+                // Retrive the edit project to edit
+                var projectViewModel = new NewProjectViewModel{
+                    Proyecto = project.Proyecto,
+                    Clave = project.Clave
+                };
+                ViewData["ProjectId"] = project.Id;
+                return View( projectViewModel );
+
+            }catch(Exception err){
+                ViewData["ErrorMessage"] = err.Message;
+                return View("Index", Array.Empty<Project>()  );
+            }
+        }
+
+        [Route("{projectId}")]
+        [HttpPost]
+        public async Task<IActionResult> Update( NewProjectViewModel newProject, [FromRoute] int projectId ){
+            
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", newProject);
+            }
+
+            try{
+                await this.projectService.UpdateProject( projectId, newProject);
+            }catch(Exception err){
+                this._logger.LogError(err, "Error at udate project");
+            }
+
+            return RedirectToAction("Index", "Projects");
+        }
+
 
     }
 }

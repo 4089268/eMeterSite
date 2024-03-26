@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eMeterSite.Models.ViewModels
+namespace eMeterSite.Models.ViewModels.Projects
 {
     public class NewProjectViewModel
     {   

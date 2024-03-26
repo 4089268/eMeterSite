@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using eMeterSite.Models;
-using eMeterSite.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+using eMeterSite.Models;
+using eMeterSite.Models.ViewModels.Projects;
 
 namespace eMeterSite.Services
 {
@@ -62,5 +63,23 @@ namespace eMeterSite.Services
             return true;
         }
 
+        public async Task<bool?> UpdateProject( int idProject, NewProjectViewModel newProject )
+        {
+            var httpContext = httpContextAccessor.HttpContext ?? throw new Exception("Cant access to the httpContext");
+            var token = httpContextAccessor.HttpContext!.Session.GetString("JWTToken") ?? throw new Exception("The user token is not defined");
+            
+            var httpClient =  httpClientFactory.CreateClient("eMeterApi");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await httpClient.PatchAsJsonAsync($"api/Projects/{idProject}", newProject);
+
+            if( !response.IsSuccessStatusCode )
+            {
+                logger.LogError("Can get the projects at ProjectService.GetProjects; {statusCode}", response.StatusCode);
+                return null;
+            }
+
+            return true;
+
+        }
     }
 }
